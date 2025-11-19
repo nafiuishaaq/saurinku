@@ -67,7 +67,7 @@ export default function DashboardScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#fff', padding: 20 },
-  header: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 },
+  header: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20, borderBottomWidth: 1, borderBottomColor: '#e5e7eb', paddingBottom: 10 },
   greeting: { fontSize: 16, color: '#333' },
   appName: { fontSize: 18, fontWeight: 'bold' },
   notificationIcon: { width: 30, height: 30, justifyContent: 'center', alignItems: 'center' },
