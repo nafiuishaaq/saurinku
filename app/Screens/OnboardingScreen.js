@@ -33,7 +33,7 @@ export default function OnboardingScreen({ navigation }) {
       {/* Skip */}
       <TouchableOpacity
         style={styles.skipBtn}
-        onPress={() => navigation.replace("Home")}
+        onPress={() => navigation.replace("Login")}
       >
         <Text style={styles.skipText}>Skip</Text>
       </TouchableOpacity>
@@ -64,7 +64,7 @@ export default function OnboardingScreen({ navigation }) {
           if (currentIndex < slides.length - 1) {
             flatListRef.current.scrollToIndex({ index: currentIndex + 1 });
           } else {
-            navigation.replace("Home");
+            navigation.replace("Login");
           }
         }}
       >
@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   nextButton: {
-    backgroundColor: "#FF6B00",
+    backgroundColor: "#4af95fff",
     width: width * 0.8,
     alignSelf: "center",
     paddingVertical: 15,

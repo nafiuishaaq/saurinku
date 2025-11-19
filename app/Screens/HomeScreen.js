@@ -11,12 +11,12 @@ const Tab = createBottomTabNavigator()
 export default function HomeScreen() {
   return (
     <Tab.Navigator 
-      initialRouteName='Home' 
+      initialRouteName='Dashboard' 
       screenOptions={({ route }) => ({
         headerShown: false,
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
-          if (route.name === 'Home') {
+          if (route.name === 'Dashboard') {
             iconName = focused ? 'home' : 'home-outline';
           } else if (route.name === 'Deliveries') {
             iconName = focused ? 'bicycle' : 'bicycle-outline';
@@ -27,9 +27,11 @@ export default function HomeScreen() {
           }
           return <Ionicons name={iconName} size={size} color={color} />;
         },
+        tabBarActiveTintColor: '#4af95fff',
+        tabBarInactiveTintColor: 'gray',
       })}
     >
-      <Tab.Screen name="Home" component={DashboardScreen} />
+      <Tab.Screen name="Dashboard" component={DashboardScreen} />
       <Tab.Screen name="Deliveries" component={DeliveriesScreen} />
       <Tab.Screen name="Support" component={SupportScreen} />
       <Tab.Screen name="Profile" component={ProfileScreen} />
