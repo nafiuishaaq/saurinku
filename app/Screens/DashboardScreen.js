@@ -1,7 +1,53 @@
-import React from 'react';
-import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { useState } from 'react';
+import { Image, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import MapView, { Marker, Polyline, PROVIDER_GOOGLE } from 'react-native-maps';
+import Icon from 'react-native-vector-icons/Feather';
 
 export default function DashboardScreen() {
+    const [deliveryData, setDeliveryData] = useState({
+      arrivalTime: 8,
+      status: 'On the way',
+      driver: {
+        name: 'Nafiu Ishaq',
+        vehicle: 'Ceegee',
+        plate: 'HS12UJ1234',
+        rating: 4.8,
+        avatar: 'NI'
+      },
+      pickup: {
+        latitude: 9.057,
+        longitude: 7.451,
+        address: 'Pickup Location'
+      },
+      delivery: {
+        latitude: 9.058,
+        longitude: 7.452,
+        address: 'Current Location'
+      },
+      dropoff: {
+        latitude: 9.059,
+        longitude: 7.453,
+        address: 'Your Location'
+      }
+    });
+  
+    const mapRegion = {
+      latitude: 9.058,
+      longitude: 7.452,
+      latitudeDelta: 0.02,
+      longitudeDelta: 0.02,
+    };
+  
+    const routeCoordinates = [
+      deliveryData.pickup,
+      deliveryData.delivery,
+      deliveryData.dropoff,
+    ];
+
+    
+  const navigation = useNavigation();
+  
   return (
     <ScrollView style={styles.container} contentContainerStyle={{ paddingTop: 30 }}>
       
@@ -26,7 +72,7 @@ export default function DashboardScreen() {
       </View>
 
       {/* Action Button */}
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('NewDelivery')}>
         <Text style={styles.buttonText}>Book a New Delivery</Text>
       </TouchableOpacity>
 
@@ -34,19 +80,66 @@ export default function DashboardScreen() {
       <Text style={styles.sectionTitle}>Active Deliveries</Text>
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
         {/* Example Delivery Card */}
-        <View style={styles.card}>
+        <Pressable onPress={() => {
+          navigation.navigate('TrackDelivery');
+        }}>
+          <View style={styles.card}>
           {/* Replace with Map Image */}
-          <Image 
+          {/* <Image 
             source={require('../../img/bg.jpg')} 
             style={styles.mapImage} 
             resizeMode="cover"
-          />
+          /> */}
+           {/* Map */}
+    <View style={styles.mapImage}>
+        <MapView
+        provider={PROVIDER_GOOGLE}
+        style={styles.map}
+        initialRegion={mapRegion}
+        showsUserLocation={true}
+        showsMyLocationButton={false}
+        
+      >
+
+        {/* Route Polyline */}
+        <Polyline
+          coordinates={routeCoordinates}
+          strokeColor="#4af95fff"
+          strokeWidth={4}
+          lineDashPattern={[8, 8]}
+        />
+
+        {/* Pickup Marker */}
+        <Marker coordinate={deliveryData.pickup}>
+          <View style={[styles.markerContainer, { backgroundColor: '#22c55e' }]}>
+            <Icon name="map-pin" size={20} color="white" />
+          </View>
+        </Marker>
+
+        {/* Driver Current Location Marker */}
+        <Marker coordinate={deliveryData.delivery}>
+          <View style={[styles.markerContainer, { backgroundColor: '#2563eb' }]}>
+            <Icon name="navigation" size={20} color="white" />
+          </View>
+        </Marker>
+
+        {/* Dropoff Marker */}
+        <Marker coordinate={deliveryData.dropoff}>
+          <View style={[styles.markerContainer, { backgroundColor: '#ef4444' }]}>
+            <Icon name="map-pin" size={20} color="white" />
+          </View>
+        </Marker>
+      
+      </MapView>
+    </View>
           <Text style={styles.status}>In Transit</Text>
           <Text style={styles.tracking}>Tracking ID: XYZ-123</Text>
           <Text style={styles.eta}>ETA: 4:30 PM</Text>
         </View>
+        </Pressable>
 
-        <View style={styles.card}>
+        <Pressable>
+          <View style={styles.card}>
           {/* Replace with Map Image */}
           <Image 
             source={require('../../img/bg.jpg')} 
@@ -57,6 +150,7 @@ export default function DashboardScreen() {
           <Text style={styles.tracking}>Tracking ID: XYZ-123</Text>
           <Text style={styles.eta}>ETA: 4:30 PM</Text>
         </View>
+        </Pressable>
 
         {/* Add more cards as needed */}
       </ScrollView>
@@ -81,4 +175,20 @@ const styles = StyleSheet.create({
   eta: { fontSize: 12, color: '#555' },
   profileContainer: { flexDirection: 'row', alignItems: 'center', marginBottom: 2 },
   profileImage: { width: 50, height: 50, borderRadius: 25, marginRight: 10 },
+  map: {
+    width: '100%',
+    height: 120,
+  },
+  markerContainer: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
 });
