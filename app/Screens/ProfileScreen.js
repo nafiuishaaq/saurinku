@@ -338,16 +338,16 @@ const styles = StyleSheet.create({
     marginLeft: 68,
   },
   logoutButton: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#DC2626',
     marginHorizontal: 16,
     marginTop: 24,
     paddingVertical: 16,
     borderRadius: 12,
     alignItems: 'center',
     borderWidth: 1,
-    borderColor: '#FEE2E2',
+    borderColor: '#DC2626',
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
+    shadowOffset: { width: 5, height: 5 },
     shadowOpacity: 0.05,
     shadowRadius: 2,
     elevation: 2,
@@ -355,7 +355,7 @@ const styles = StyleSheet.create({
   logoutText: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#DC2626',
+    color: '#FFFFFF',
   },
   bottomSpacer: {
     height: 32,
