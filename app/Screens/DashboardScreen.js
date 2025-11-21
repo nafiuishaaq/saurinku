@@ -53,10 +53,13 @@ export default function DashboardScreen() {
       
       {/* Header */}
       <View style={styles.header}>
-            <View>
+          <Pressable onPress={() => {
+            navigation.navigate('Profile');
+          }}>
+              <View>
                 <View style={styles.profileContainer}>
                   <Image 
-                    source={require('../../img/image1.png')} 
+                    source={require('../../img/avatar.jpg')} 
                     style={ styles.profileImage } 
                   />
                   <View>
@@ -65,6 +68,7 @@ export default function DashboardScreen() {
                   </View>
                 </View>
             </View>
+          </Pressable>
           <View style={styles.notificationIcon}>
             {/* Replace with actual icon */}
             <Text>🔔</Text>
