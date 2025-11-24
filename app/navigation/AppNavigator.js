@@ -4,6 +4,7 @@ import HomeScreen from "../Screens/HomeScreen";
 import LoginScreen from "../Screens/LoginScreen";
 import NewDelivery from "../Screens/NewDelivery";
 import OnboardingScreen from "../Screens/OnboardingScreen";
+import ReportIssueScreen from "../Screens/ReportIssueScreen";
 import SplashScreen from "../Screens/SplashScreen";
 import TrackDelivery from "../Screens/TrackDelivery";
 
@@ -18,6 +19,7 @@ export default function AppNavigator() {
         <Stack.Screen name="TrackDelivery" component={TrackDelivery} />
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="NewDelivery" component={NewDelivery} />
+        <Stack.Screen name="ReportIssue" component={ReportIssueScreen} />
       </Stack.Navigator>
   );
 }
