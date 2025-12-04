@@ -2,6 +2,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from 'expo-router';
 import React, { useState } from 'react';
 import {
+  Alert,
   Image,
   Pressable,
   ScrollView,
@@ -10,12 +11,16 @@ import {
   Text,
   View,
 } from 'react-native';
+import { useAuth } from "../../app/context/AuthContext";
+import RoleSwitcher from '../../components/RoleSwitcher';
+
+
 
 const MenuItem = ({ icon, title, hasArrow = true, onPress }) => (
   <Pressable
-    style={styles.menuItem}
-    onPress={onPress}
-    android_ripple={{ color: '#F3F4F6' }}
+  style={styles.menuItem}
+  onPress={onPress}
+  android_ripple={{ color: '#F3F4F6' }}
   >
     <View style={styles.menuLeft}>
       <View style={styles.iconContainer}>
@@ -41,7 +46,7 @@ const MenuItemWithToggle = ({ icon, title, value, onValueChange }) => (
       trackColor={{ false: '#D1D5DB', true: '#86EFAC' }}
       thumbColor={value ? '#22c535ff' : '#F3F4F6'}
       ios_backgroundColor="#D1D5DB"
-    />
+      />
   </View>
 );
 
@@ -64,7 +69,19 @@ export default function ProfilePage({
   const navigation = useNavigation();
   const [availabilityStatus, setAvailabilityStatus] = useState(true);
   const [pushNotificationsEnabled, setPushNotificationsEnabled] = useState(true);
+  const { logout } = useAuth();
 
+  const handleLogout = async () => {
+  try {
+    await logout(); // clears AsyncStorage and user state
+    Alert.alert("Logged out", "You have been successfully logged out.");
+    navigation.navigate("/Login"); // navigate to login screen
+  } catch (error) {
+    console.error("Logout failed:", error);
+    Alert.alert("Error", "Unable to logout. Please try again.");
+  }
+};
+  
   return (
     <View style={styles.container}>
       {/* Header */}
@@ -75,6 +92,9 @@ export default function ProfilePage({
           <Ionicons name="arrow-back" size={22} color="#000" />
         </Pressable>
         <Text style={styles.headerTitle}>My Profile</Text>
+        <View>
+          <Text><RoleSwitcher /></Text>
+        </View>
         <View style={styles.headerSpacer} />
       </View>
 
@@ -166,7 +186,7 @@ export default function ProfilePage({
         {/* Logout Button */}
         <Pressable
           style={styles.logoutButton}
-          onPress={onLogout}
+          onPress={handleLogout}
           android_ripple={{ color: '#FEE2E2' }}
         >
           <Text style={styles.logoutText}>Logout</Text>

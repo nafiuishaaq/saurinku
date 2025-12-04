@@ -1,24 +1,33 @@
-import { useEffect } from "react";
-import { Image, StyleSheet, Text, View } from "react-native";
+// app/Screens/SplashScreen.js
+import { useNavigation } from '@react-navigation/native';
+import React, { useEffect } from 'react';
+import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
+import { useAuth } from '../context/AuthContext';
 
-export default function SplashScreen({ navigation }) {
+export default function SplashScreen() {
+  const navigation = useNavigation();
+  const { hasSeenOnboarding, isLoading } = useAuth();
+
   useEffect(() => {
+    // Wait a moment then navigate
     const timer = setTimeout(() => {
-      navigation.replace("Onboarding");
-    }, 2000);
+      if (!isLoading) {
+        if (hasSeenOnboarding) {
+          navigation.replace('Login');
+        } else {
+          navigation.replace('Onboarding');
+        }
+      }
+    }, 2000); // 2 second splash screen
+
     return () => clearTimeout(timer);
-  }, []);
+  }, [hasSeenOnboarding, isLoading, navigation]);
 
   return (
     <View style={styles.container}>
-      <View style={styles.logoContainer}>
-        <Image
-          source={require("../../img/image1.png")}
-          style={styles.logo}
-        />
-        <Text style={styles.title}>Saurinku</Text>
-        <Text style={styles.subtitle}>Delivery, Simplified</Text>
-      </View>
+      <Text style={styles.title}>Saurinku Group</Text>
+      <Text style={styles.subtitle}>Welcome</Text>
+      <ActivityIndicator size="large" color="#fefffeff" style={styles.loader} />
     </View>
   );
 }
@@ -26,26 +35,22 @@ export default function SplashScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#fff",
-  },
-  logoContainer: {
-    alignItems: "center",
-  },
-  logo: {
-    width: 90,
-    height: 90,
-    resizeMode: "contain",
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#12ff85ff',
   },
   title: {
-    marginTop: 15,
-    fontSize: 24,
-    fontWeight: "700",
-    color: "#1A1A1A",
+    fontSize: 32,
+    fontWeight: 'bold',
+    marginBottom: 10,
+    color: '#333',
   },
   subtitle: {
-    color: "#666",
-    marginTop: 5,
+    fontSize: 18,
+    color: '#fffefeff',
+    marginBottom: 30,
+  },
+  loader: {
+    marginTop: 20,
   },
 });

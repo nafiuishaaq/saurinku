@@ -1,23 +1,22 @@
 import { useRef, useState } from "react";
 import {
-  Animated,
-  Dimensions,
-  FlatList,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View
+    Animated,
+    Dimensions,
+    FlatList,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    View
 } from "react-native";
+
 import OnboardingItem from "../../components/OnboardingItem";
 import Paginator from "../../components/Paginator";
-import { useAuth } from "../context/AuthContext";
 
 const { width } = Dimensions.get("window");
 
 import { slides } from "../../data/onboardingSlides";
 
 export default function OnboardingScreen({ navigation }) {
-  const { completeOnboarding } = useAuth();
   const scrollX = useRef(new Animated.Value(0)).current;
   const flatListRef = useRef(null);
 
@@ -29,17 +28,12 @@ export default function OnboardingScreen({ navigation }) {
 
   const viewConfig = useRef({ viewAreaCoveragePercentThreshold: 50 }).current;
 
-  const handleNavigateToLogin = async () => {
-    await completeOnboarding();
-    navigation.replace("Login");
-  };
-
   return (
     <View style={styles.container}>
       {/* Skip */}
       <TouchableOpacity
         style={styles.skipBtn}
-        onPress={handleNavigateToLogin}
+        onPress={() => navigation.replace("Login")}
       >
         <Text style={styles.skipText}>Skip</Text>
       </TouchableOpacity>
@@ -70,7 +64,7 @@ export default function OnboardingScreen({ navigation }) {
           if (currentIndex < slides.length - 1) {
             flatListRef.current.scrollToIndex({ index: currentIndex + 1 });
           } else {
-            handleNavigateToLogin();
+            navigation.replace("Login");
           }
         }}
       >
@@ -81,7 +75,6 @@ export default function OnboardingScreen({ navigation }) {
     </View>
   );
 }
-
 
 const styles = StyleSheet.create({
   container: {
